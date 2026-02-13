@@ -1,8 +1,9 @@
+import MultiStepForm from '@/components/auth/signup/MultiStepForm'
 import React from 'react'
 
 const SignupPage = () => {
     return (
-        <div>Signup Page</div>
+        <><MultiStepForm /></>
     )
 }
 
