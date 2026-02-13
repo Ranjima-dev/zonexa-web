@@ -64,7 +64,7 @@ export default function LoginForm() {
                         <h1 className='text-2xl text-center'>Welcome Back</h1>
                     </CardTitle>
                     <CardDescription className="text-center">
-                        Enter your credentials to access your account
+                        Enter your credentials to access your account.
                     </CardDescription>
                 </CardHeader>
 
