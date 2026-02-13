@@ -16,7 +16,7 @@ describe("LoginForm", () => {
     it("renders the login form", () => {
         render(<LoginForm />)
         const heading = screen.getByRole("heading", {
-            name: /login/i,
+            name: /welcome back/i,
         })
         expect(heading).toBeInTheDocument()
     })
