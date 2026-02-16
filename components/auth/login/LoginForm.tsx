@@ -12,17 +12,20 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { login } from '@/lib/api/login'
-import { validateEmail, validatePassword } from '@/utils/validation'
+import { validateMobile } from '@/utils/validation'
+import { montserrat } from '@/app/layout'
+import { Check } from 'lucide-react'
+import Image from 'next/image'
 
 interface FormErrors {
-    email?: string
+    mobile?: string
     password?: string
     general?: string
 }
 
 export default function LoginForm() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [mobile, setMobile] = useState('')
+    const [checked, setChecked] = useState(false);
     const [errors, setErrors] = useState<FormErrors>({})
     const [isLoading, setIsLoading] = useState(false)
 
@@ -31,11 +34,8 @@ export default function LoginForm() {
 
         const newErrors: FormErrors = {}
 
-        const emailError = validateEmail(email)
-        if (emailError) newErrors.email = emailError
-
-        const passwordError = validatePassword(password)
-        if (passwordError) newErrors.password = passwordError
+        const mobileError = validateMobile(mobile)
+        if (mobileError) newErrors.mobile = mobileError
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
@@ -46,7 +46,7 @@ export default function LoginForm() {
             setIsLoading(true)
             setErrors({})
 
-            await login({ email, password })
+            await login({ mobile })
 
             alert('Login successful!')
         } catch (err) {
@@ -57,73 +57,94 @@ export default function LoginForm() {
     }
 
     return (
-        <div className="flex items-center justify-center bg-muted px-4">
-            <Card className="w-full max-w-md shadow-lg">
-                <CardHeader className="space-y-1">
-                    <CardTitle>
-                        <h1 className='text-2xl text-center'>Welcome Back</h1>
-                    </CardTitle>
-                    <CardDescription className="text-center">
-                        Enter your credentials to access your account.
-                    </CardDescription>
-                </CardHeader>
+        <div className="relative flex flex-col justify-center min-h-screen px-4 overflow-hidden">
+            <div className='flex flex-col justify-center mx-auto w-full'>
+                {/* Logo */}
+                <div className="flex items-center gap-3 px-6">
+                    <Image
+                        src="/images/logo.svg"
+                        alt="Zonexa Logo"
+                        width={80}
+                        height={50}
+                        className="shrink-0"
+                    />
+                    <h1
+                        className={`${montserrat.className} text-2xl font-semibold text-[#0B2545] leading-none h-auto`}
+                    >
+                        ZONEXA
+                    </h1>
 
-                <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                </div>
 
-                        {/* Email Field */}
-                        <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="name@example.com"
-                                aria-invalid={!!errors.email}
-                            />
-                            {errors.email && (
-                                <p role="alert" className="text-sm text-red-500">
-                                    {errors.email}
-                                </p>
-                            )}
-                        </div>
+                <div className="w-full max-w-lg z-10 bg-transparent">
+                    <Card className="w-full gap-8 bg-transparent">
+                        <CardHeader className="space-y-0">
+                            <CardTitle>
+                                <h1 className={`${montserrat.className} text-3xl text-left text-[#0B2545]`}>Welcome to Zonexa!</h1>
+                            </CardTitle>
+                            <CardDescription className="text-left text-md">
+                                Log In to your Paco account to explore your dream place to live across the whole world!
+                            </CardDescription>
+                        </CardHeader>
 
-                        {/* Password Field */}
-                        <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter your password"
-                                aria-invalid={!!errors.password}
-                            />
-                            {errors.password && (
-                                <p role="alert" className="text-sm text-red-500">
-                                    {errors.password}
-                                </p>
-                            )}
-                        </div>
+                        <CardContent>
+                            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
 
-                        {/* General Error */}
-                        {errors.general && (
-                            <p role="alert" className="text-sm text-red-500 text-center">
-                                {errors.general}
-                            </p>
-                        )}
+                                {/* Mobile Field */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="mobile">Mobile Number</Label>
+                                    <Input
+                                        id="mobile"
+                                        type="tel"
+                                        value={mobile}
+                                        className="rounded-2xl border bg-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none"
+                                        onChange={(e) => setMobile(e.target.value)}
+                                        placeholder="Enter your mobile number"
+                                        aria-invalid={!!errors.mobile}
+                                    />
+                                    {errors.mobile && (
+                                        <p role="alert" className="text-sm text-red-500">
+                                            {errors.mobile}
+                                        </p>
+                                    )}
+                                </div>
 
-                        <Button
-                            type="submit"
-                            className="w-full"
-                            disabled={isLoading}
-                        >
-                            {isLoading ? 'Logging in...' : 'Login'}
-                        </Button>
-                    </form>
-                </CardContent>
-            </Card>
-        </div>
+                                <div className="flex items-center gap-2 text-sm">
+                                    {/* Custom Checkbox */}
+                                    <button
+                                        type="button"
+                                        onClick={() => setChecked(!checked)}
+                                        className={`flex h-4 w-4 items-center cursor-pointer justify-center rounded-sm transition-colors ${checked ? "bg-[#2673BE]" : "border border-gray-300 bg-white"
+                                            }`}
+                                    >
+                                        {checked && <Check className="h-4 w-4 text-white" />}
+                                    </button>
+                                    {/* Text */}
+                                    <p className="text-[#6B7280]">
+                                        I understand and accept the{" "}
+                                        <a
+                                            href="#"
+                                            className="text-[#2673BE] font-medium underline underline-offset-4"
+                                        >
+                                            Terms & Conditions.
+                                        </a>
+                                    </p>
+                                </div>
+
+                                <Button
+                                    type="submit"
+                                    className="w-full bg-[#2673BE] hover:bg-[#1e5a94] border-none rounded-2xl"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? 'Logging in...' : 'Login'}
+                                </Button>
+                            </form>
+                        </CardContent>
+                    </Card>
+                </div>
+
+            </div>
+
+        </div >
     )
 }

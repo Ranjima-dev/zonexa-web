@@ -1,12 +1,11 @@
 type LoginPayload = {
-  email: string;
-  password: string;
+  mobile: string;
 };
 
-export async function login({ email, password }: LoginPayload) {
+export async function login({ mobile }: LoginPayload) {
   await new Promise((resolve) => setTimeout(resolve, 300));
 
-  if (email === "test@test.com" && password === "Abc123!") {
+  if (mobile === "8617223486") {
     return { token: "123" };
   }
 

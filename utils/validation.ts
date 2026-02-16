@@ -1,8 +1,12 @@
-export function validateEmail(email: string): string {
-  if (!email) return "Email is required";
+export function validateMobile(mobile: string): string {
+  if (!mobile) return "Mobile number is required";
 
-  if (!/\S+@\S+\.\S+/.test(email)) {
-    return "Invalid email format";
+  // Remove spaces
+  const trimmed = mobile.trim();
+
+  // Only digits, exactly 10 numbers
+  if (!/^\d{10}$/.test(trimmed)) {
+    return "Invalid mobile number";
   }
 
   return "";
