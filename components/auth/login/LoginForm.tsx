@@ -57,7 +57,7 @@ export default function LoginForm() {
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-muted px-4">
+        <div className="flex items-center justify-center bg-muted px-4">
             <Card className="w-full max-w-md shadow-lg">
                 <CardHeader className="space-y-1">
                     <CardTitle>

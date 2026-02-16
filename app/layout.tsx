@@ -1,4 +1,15 @@
 import "./globals.css";
+import { Inter, Montserrat } from "next/font/google";
+
+export const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
+export const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
 
 export default function RootLayout({
   children,
@@ -7,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className={`${inter.className} antialiased`}>
         {children}
       </body>
     </html>
