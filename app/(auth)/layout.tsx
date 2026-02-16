@@ -38,7 +38,7 @@ export default function AuthLayout({
 
 
             {/* Right Side */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-6 relative">
+            <div className="w-full lg:w-1/2 flex justify-center p-6 relative overflow-y-auto">
                 {children}
 
                 <div className="absolute bottom-0 right-0 w-full h-100 pointer-events-none">
