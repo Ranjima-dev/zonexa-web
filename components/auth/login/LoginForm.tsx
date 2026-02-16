@@ -92,7 +92,7 @@ export default function LoginForm() {
 
                                 {/* Mobile Field */}
                                 <div className="space-y-2">
-                                    <Label htmlFor="mobile">Mobile Numbers</Label>
+                                    <Label htmlFor="mobile">Mobile Number</Label>
                                     <Input
                                         id="mobile"
                                         type="tel"
