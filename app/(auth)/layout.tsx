@@ -1,6 +1,7 @@
 import ImageGrid from "@/components/auth/ImageGrid";
 import type { ReactNode } from "react";
 import { montserrat } from "../layout";
+import Image from "next/image";
 
 export default function AuthLayout({
     children,
@@ -37,9 +38,17 @@ export default function AuthLayout({
 
 
             {/* Right Side */}
-            <div className="w-full lg:w-1/2 bg-white flex items-center justify-center p-6">
-                <div>
-                    {children}
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-6 relative">
+                {children}
+
+                <div className="absolute bottom-0 right-0 w-full h-100 pointer-events-none">
+                    <Image
+                        src="/images/login-watermark.png"
+                        alt="image-watermark"
+                        fill
+                        className="object-fit"
+                        priority
+                    />
                 </div>
             </div>
 
