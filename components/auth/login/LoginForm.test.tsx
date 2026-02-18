@@ -1,53 +1,88 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import LoginForm from "./LoginForm";
 import userEvent from "@testing-library/user-event";
+import LoginForm from "./LoginForm";
 import { login } from "@/lib/api/login";
 
-jest.mock('@/lib/api/login', () => ({
-    login: jest.fn()
-}))
+// Mock login API
+jest.mock("@/lib/api/login", () => ({
+    login: jest.fn(),
+}));
+
+// Mock next/navigation
+const pushMock = jest.fn();
+
+jest.mock("next/navigation", () => ({
+    useRouter: () => ({
+        push: pushMock,
+    }),
+}));
 
 describe("LoginForm", () => {
-
     beforeEach(() => {
-        jest.clearAllMocks()
+        jest.clearAllMocks();
     });
 
     it("renders the login form", () => {
-        render(<LoginForm />)
-        const heading = screen.getByRole("heading", {
-            name: /welcome back/i,
-        })
-        expect(heading).toBeInTheDocument()
-    })
+        render(<LoginForm />);
 
-    it('renders email input', () => {
-        render(<LoginForm />)
-        const emailInput = screen.getByLabelText(/email/i)
+        expect(
+            screen.getByRole("heading", { name: /welcome to zonexa/i })
+        ).toBeInTheDocument();
 
-        expect(emailInput).toBeInTheDocument()
-    })
+        expect(
+            screen.getByLabelText(/mobile number/i)
+        ).toBeInTheDocument();
 
-    it('renders password input', () => {
-        render(<LoginForm />)
-        const passwordInput = screen.getByLabelText(/password/i)
+        expect(
+            screen.getByRole("button", { name: /login/i })
+        ).toBeInTheDocument();
+    });
 
-        expect(passwordInput).toBeInTheDocument()
-    })
+    it("shows validation error for short mobile number", async () => {
+        const user = userEvent.setup();
+        render(<LoginForm />);
 
-    it('renders login button', () => {
-        render(<LoginForm />)
-        const loginButton = screen.getByRole("button", {
-            name: /login/i,
-        })
-        expect(loginButton).toBeInTheDocument()
-    })
+        await user.type(
+            screen.getByLabelText(/mobile number/i),
+            "123"
+        );
 
-    it("calls login API successfully", async () => {
+        await user.click(
+            screen.getByRole("button", { name: /login/i })
+        );
+
+        expect(
+            await screen.findByText(
+                /mobile number must be at least 10 digits/i
+            )
+        ).toBeInTheDocument();
+    });
+
+    it("shows validation error if terms not accepted", async () => {
+        const user = userEvent.setup();
+        render(<LoginForm />);
+
+        await user.type(
+            screen.getByLabelText(/mobile number/i),
+            "9876543210"
+        );
+
+        await user.click(
+            screen.getByRole("button", { name: /login/i })
+        );
+
+        expect(
+            await screen.findByText(
+                /you must accept terms & conditions/i
+            )
+        ).toBeInTheDocument();
+    });
+
+    it("calls login API on successful submission", async () => {
         const user = userEvent.setup();
 
         (login as jest.Mock).mockResolvedValue({
-            token: "123",
+            success: true,
         });
 
         const alertSpy = jest
@@ -57,54 +92,60 @@ describe("LoginForm", () => {
         render(<LoginForm />);
 
         await user.type(
-            screen.getByLabelText(/email/i),
-            "test@test.com"
+            screen.getByLabelText(/mobile number/i),
+            "9876543210"
         );
 
-        await user.type(screen.getByLabelText(/password/i), "Abc123!");
+        // click checkbox button (first non-submit button)
+        const checkboxButton = screen.getAllByRole("button")[0];
+        await user.click(checkboxButton);
 
         await user.click(
             screen.getByRole("button", { name: /login/i })
         );
 
-        expect(login).toHaveBeenCalledWith({
-            email: "test@test.com",
-            password: "Abc123!",
+        await waitFor(() => {
+            expect(login).toHaveBeenCalledWith({
+                mobile: "9876543210",
+            });
         });
 
-        await waitFor(() => {
-            expect(alertSpy).toHaveBeenCalledWith(
-                "Login successful!"
-            );
-        });
+        expect(alertSpy).toHaveBeenCalledWith(
+            "Login successful!"
+        );
+
+        expect(pushMock).toHaveBeenCalledWith("/verify");
     });
 
-    it("shows error when login fails", async () => {
+    it("shows error alert when login fails", async () => {
         const user = userEvent.setup();
 
         (login as jest.Mock).mockRejectedValue(
             new Error("Invalid credentials")
         );
 
+        const alertSpy = jest
+            .spyOn(window, "alert")
+            .mockImplementation(() => { });
+
         render(<LoginForm />);
 
         await user.type(
-            screen.getByLabelText(/email/i),
-            "test@test.com"
+            screen.getByLabelText(/mobile number/i),
+            "9876543210"
         );
 
-        await user.type(
-            screen.getByLabelText(/password/i),
-            "Abc123!"
-        );
+        const checkboxButton = screen.getAllByRole("button")[0];
+        await user.click(checkboxButton);
 
         await user.click(
             screen.getByRole("button", { name: /login/i })
         );
 
-        expect(
-            await screen.findByRole("alert")
-        ).toHaveTextContent("Invalid credentials");
+        await waitFor(() => {
+            expect(alertSpy).toHaveBeenCalledWith(
+                "Invalid credentials"
+            );
+        });
     });
-
-})
+});

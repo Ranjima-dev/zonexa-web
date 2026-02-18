@@ -40,7 +40,7 @@ export default function Step5() {
             <div className="w-full max-w-xl">
 
                 {/* Card Container */}
-                <div className="bg-white p-8 flex flex-col max-h-[85vh] relative z-10 w-full">
+                <div className="p-8 flex flex-col max-h-[85vh] relative z-10 w-full">
 
                     {/* Title (fixed) */}
                     <div className="space-y-2 mb-6">
@@ -53,7 +53,7 @@ export default function Step5() {
                     </div>
 
                     {/* Scrollable Form */}
-                    <div className="overflow-y-auto pr-2 flex-1">
+                    <div className="overflow-y-auto pr-2 pl-2 flex-1">
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mb-4">
 

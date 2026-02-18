@@ -56,11 +56,11 @@ export default function OnboardingForm() {
             <div className="w-full max-w-lg">
 
                 {/* Card */}
-                <div className="bg-white flex flex-col max-h-[85vh] relative z-10 p-8">
+                <div className="flex flex-col max-h-[85vh] relative z-10 p-8">
 
                     <button
                         type="button"
-                        onClick={() => router.replace("/login")}
+                        onClick={() => router.replace("/onboarding/4")}
                         className="absolute -top-4 right-6 text-sm font-medium text-[#0B2545] hover:underline cursor-pointer"
                     >
                         Skip

@@ -7,7 +7,7 @@ import { step7Schema, Step7Values } from "@/schemas/step7Schema"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { BadgeCheck, Upload } from "lucide-react"
+import { BadgeCheck, CircleAlert, Upload } from "lucide-react"
 import { montserrat } from "@/app/layout"
 
 export default function Step7() {
@@ -42,7 +42,7 @@ export default function Step7() {
             <div className="w-full max-w-lg">
 
                 {/* Card Container */}
-                <div className="relative bg-white p-8 flex flex-col max-h-[85vh] z-10">
+                <div className="relative p-8 flex flex-col max-h-[85vh] z-10">
 
                     {/* Skip Button */}
                     <button
@@ -68,10 +68,19 @@ export default function Step7() {
                             </p>
 
                         </div>
+
+                        <div className="bg-[#FFAA5E33] flex gap-4 px-4 py-2 rounded-md items-center w-full">
+                            <span>
+                                <CircleAlert size={20} color="#0B2545" />
+                            </span>
+                            <span className="text-xs text-[#0B2545]">
+                                Your KYC is verified directly by Govt authorized agency without any data storage.
+                            </span>
+                        </div>
                     </div>
 
                     {/* Scrollable Form Area */}
-                    <div className="overflow-y-auto flex-1 pr-2">
+                    <div className="overflow-y-auto flex-1 pr-2 pl-2">
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 

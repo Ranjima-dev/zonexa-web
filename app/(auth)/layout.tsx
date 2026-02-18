@@ -20,22 +20,24 @@ export default function AuthLayout({
                         <div className="relative flex-1 overflow-hidden p-5">
                             <ImageGrid />
 
-                            <div className="absolute bottom-0 left-0 w-full h-30 pointer-events-none bg-linear-to-t from-[#F3F8FD] via-[#F3F8FD]/80 to-transparent" />
+                            <div className="absolute bottom-0 left-0 w-full h-50 pointer-events-none bg-linear-to-t from-white to-transparent" />
                         </div>
 
                         {/* Bottom Text Area */}
-                        <div className="bg-linear-to-t from-[#FFF] via-[#F3F8FD]/80 to-transparent px-10 pb-2 pt-2 relative z-10 flex flex-col gap-2">
-                            <div className="flex flex-col gap-0">
-                                <h2 className={`${montserrat.className} w-87.5 text-2xl font-bold text-[#0B2545]`}>
+                        <div className="bg-white px-10 pb-4 relative z-10 flex flex-col gap-2">
+                            <div>
+                                <h2 className={`${montserrat.className} w-87.5 text-2xl mb-0 font-bold text-[#0B2545]`}>
                                     Land to Logistics
                                 </h2>
-                                <h2 className={`${montserrat.className} w-150 text-2xl font-bold text-[#0B2545]`}>
+                                <h2 className={`${montserrat.className} w-full text-2xl mb-0 font-bold text-[#0B2545]`}>
                                     India‘s Platform for Land, Industrial, and
                                 </h2>
-                                <h2 className={`${montserrat.className} w-87.5 text-2xl font-bold text-[#0B2545]`}>Logistics Real Estate</h2>
+                                <h2 className={`${montserrat.className} w-87.5 text-2xl mb-0 font-bold text-[#0B2545]`}>
+                                    Logistics Real Estate
+                                </h2>
                             </div>
 
-                            <p className="text-[#6B7280] text-sm">Search | Select | Connect</p>
+                            <p className="text-[#6B7280] text-md">Search | Select | Connect</p>
                         </div>
 
                     </div>
@@ -44,19 +46,26 @@ export default function AuthLayout({
 
 
             {/* Right Side */}
-            <div className="w-full lg:w-1/2 flex justify-center relative overflow-y-auto">
-                {children}
+            <div className="w-full lg:w-1/2 relative min-h-screen flex flex-col bg-white">
 
-                <div className="absolute bottom-0 right-0 w-full h-100 pointer-events-none">
+                {/* Centered Content */}
+                <div className="flex-1 flex items-center justify-center p-6 z-10">
+                    {children}
+                </div>
+
+                {/* Watermark */}
+                <div className="absolute bottom-0 left-0 w-full h-70 pointer-events-none z-0">
                     <Image
                         src="/images/login-watermark.png"
                         alt="image-watermark"
                         fill
-                        className="object-fit"
+                        className="w-full h-full object-cover opacity-20"
                         priority
                     />
                 </div>
+
             </div>
+
 
         </div>
     );

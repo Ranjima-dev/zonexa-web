@@ -18,10 +18,10 @@ export default function Step6() {
             <div className="w-full max-w-md">
 
                 {/* Card Container */}
-                <div className="bg-white flex flex-col max-h-[85vh]">
+                <div className="flex flex-col max-h-[85vh]">
 
                     {/* Scrollable Content */}
-                    <div className="overflow-y-auto flex-1 pr-2 space-y-6">
+                    <div className="overflow-y-auto flex-1 pr-2 pl-2 space-y-6">
 
                         {/* Map Container */}
                         <div className="rounded-2xl overflow-hidden h-80 w-full shadow-md">

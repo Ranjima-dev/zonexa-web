@@ -19,6 +19,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema, LoginFormValues } from '@/schemas/loginSchema'
 import { useRouter } from 'next/navigation'
+import { toast } from "sonner";
 
 export default function LoginForm() {
 
@@ -42,10 +43,10 @@ export default function LoginForm() {
     const onSubmit = async (data: LoginFormValues) => {
         try {
             await login({ mobile: data.mobile })
-            alert('Login successful!')
+            toast.success("Login successful!");
             router.push('/verify')
         } catch (error) {
-            alert('Invalid credentials')
+            toast.error("Invalid credentials");
         }
     }
 
@@ -71,7 +72,7 @@ export default function LoginForm() {
 
                         <CardHeader>
                             <CardTitle>
-                                <h1 className={`${montserrat.className} text-3xl text-[#0B2545]`}>
+                                <h1 className={`${montserrat.className} text-2xl text-[#0B2545]`}>
                                     Welcome to Zonexa!
                                 </h1>
                             </CardTitle>
@@ -86,20 +87,35 @@ export default function LoginForm() {
                                 {/* Mobile Field */}
                                 <div className="space-y-2">
                                     <Label htmlFor="mobile">Mobile Number</Label>
+
                                     <Input
                                         id="mobile"
                                         type="tel"
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
+                                        maxLength={10}
                                         placeholder="Enter your mobile number"
-                                        className='rounded-2xl'
-                                        {...register('mobile')}
+                                        className="rounded-2xl"
+                                        {...register("mobile", {
+                                            required: "Mobile number is required",
+                                            pattern: {
+                                                value: /^[0-9]{10}$/,
+                                                message: "Enter a valid 10-digit mobile number",
+                                            },
+                                        })}
+                                        onInput={(e: React.FormEvent<HTMLInputElement>) => {
+                                            e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "");
+                                        }}
                                         aria-invalid={!!errors.mobile}
                                     />
+
                                     {errors.mobile && (
                                         <p className="text-sm text-red-500">
                                             {errors.mobile.message}
                                         </p>
                                     )}
                                 </div>
+
 
                                 {/* Terms Checkbox */}
                                 <div className="flex items-center gap-2 text-sm">

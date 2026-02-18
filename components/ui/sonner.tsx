@@ -15,23 +15,40 @@ const Toaster = ({ ...props }: ToasterProps) => {
 
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
-      className="toaster group"
-      icons={{
-        success: <CircleCheckIcon className="size-4" />,
-        info: <InfoIcon className="size-4" />,
-        warning: <TriangleAlertIcon className="size-4" />,
-        error: <OctagonXIcon className="size-4" />,
-        loading: <Loader2Icon className="size-4 animate-spin" />,
+      theme="light"
+      position="bottom-right"
+      expand
+      visibleToasts={4}
+      closeButton
+      toastOptions={{
+        classNames: {
+          toast:
+            "rounded-2xl border border-gray-200 bg-white shadow-lg px-5 py-4 flex items-start gap-4 transition-all",
+          title:
+            "text-sm font-semibold text-gray-900 tracking-tight",
+          description:
+            "text-xs text-gray-500 leading-relaxed",
+          closeButton:
+            "opacity-50 hover:opacity-100 transition-opacity",
+        },
       }}
-      style={
-        {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
-          "--border-radius": "var(--radius)",
-        } as React.CSSProperties
-      }
+      icons={{
+        success: (
+          <CircleCheckIcon className="size-8 text-emerald-500" />
+        ),
+        info: (
+          <InfoIcon className="size-8 text-blue-500" />
+        ),
+        warning: (
+          <TriangleAlertIcon className="size-8 text-amber-500" />
+        ),
+        error: (
+          <OctagonXIcon className="size-8 text-rose-500" />
+        ),
+        loading: (
+          <Loader2Icon className="size-8 animate-spin text-gray-400" />
+        ),
+      }}
       {...props}
     />
   )
