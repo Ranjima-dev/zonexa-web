@@ -106,7 +106,7 @@ export default function LoginForm() {
                                     <button
                                         type="button"
                                         onClick={() => setValue('acceptTerms', !checked)}
-                                        className={`flex h-4 w-4 items-center justify-center rounded-sm transition-colors ${checked
+                                        className={`flex h-4 w-4 items-center justify-center rounded-sm transition-colors cursor-pointer ${checked
                                             ? "bg-[#2673BE]"
                                             : "border border-gray-300 bg-white"
                                             }`}
@@ -116,7 +116,7 @@ export default function LoginForm() {
 
                                     <p className="text-[#6B7280]">
                                         I understand and accept the{" "}
-                                        <span className="text-[#2673BE] font-medium underline underline-offset-4">
+                                        <span className="text-[#2673BE] font-medium underline underline-offset-4 cursor-pointer">
                                             Terms & Conditions.
                                         </span>
                                     </p>
